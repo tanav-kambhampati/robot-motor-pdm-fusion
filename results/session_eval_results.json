@@ -1,0 +1,236 @@
+{
+  "session_mapping": {
+    "1": {
+      "folder": "20240527_094865",
+      "split": "train"
+    },
+    "2": {
+      "folder": "20240527_100759",
+      "split": "train"
+    },
+    "3": {
+      "folder": "20240527_101627",
+      "split": "train"
+    },
+    "4": {
+      "folder": "20240527_102436",
+      "split": "val"
+    },
+    "5": {
+      "folder": "20240527_102919",
+      "split": "train"
+    },
+    "6": {
+      "folder": "20240527_103311",
+      "split": "train"
+    },
+    "7": {
+      "folder": "20240527_103690",
+      "split": "test"
+    },
+    "8": {
+      "folder": "20240527_104247",
+      "split": "test"
+    }
+  },
+  "split_counts": {
+    "train": 58446,
+    "val": 9288,
+    "test": 17208,
+    "total": 84942
+  },
+  "anomaly_prevalence_pct": 26.12,
+  "sensor_statistics": {
+    "temperature": {
+      "min": 28.0,
+      "max": 255.0,
+      "mean": 37.65870829507193,
+      "std": 8.579638656344908,
+      "outlier_rate_pct": 0.008240917331826423
+    },
+    "voltage": {
+      "min": -25926.0,
+      "max": 8099.0,
+      "mean": 7203.100809964446,
+      "std": 217.25518638387672,
+      "outlier_rate_pct": 1.3067740340467613
+    },
+    "position": {
+      "min": -32267.0,
+      "max": 992.0,
+      "mean": 438.2391867391867,
+      "std": 244.475974690474,
+      "outlier_rate_pct": 24.904052176779448
+    }
+  },
+  "table_ii": {
+    "random_forest": {
+      "roc_auc": 0.942,
+      "pr_auc": 0.553,
+      "precision": 0.176,
+      "recall": 1.0,
+      "f1": 0.3,
+      "train_time_s": 0.299
+    },
+    "xgboost": {
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "precision": 0.987,
+      "recall": 1.0,
+      "f1": 0.993,
+      "train_time_s": 0.375
+    },
+    "lstm_L30": {
+      "roc_auc": 0.999,
+      "pr_auc": 0.991,
+      "precision": 0.884,
+      "recall": 0.989,
+      "f1": 0.933,
+      "train_time_s": 32.8
+    }
+  },
+  "ablations": [
+    {
+      "experiment": "IQR OR-rule (label rule as predictor)",
+      "roc_auc": null,
+      "pr_auc": null,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "train_time_s": 0.0
+    },
+    {
+      "experiment": "Isolation Forest",
+      "roc_auc": 0.526,
+      "pr_auc": 0.073,
+      "precision": 0.073,
+      "recall": 1.0,
+      "f1": 0.137,
+      "train_time_s": 0.0
+    },
+    {
+      "experiment": "RF \u2014 temperature only",
+      "roc_auc": 0.575,
+      "pr_auc": 0.082,
+      "precision": 0.047,
+      "recall": 0.218,
+      "f1": 0.078,
+      "train_time_s": 0.268
+    },
+    {
+      "experiment": "RF \u2014 voltage only",
+      "roc_auc": 0.337,
+      "pr_auc": 0.099,
+      "precision": 0.056,
+      "recall": 0.27,
+      "f1": 0.093,
+      "train_time_s": 0.252
+    },
+    {
+      "experiment": "RF \u2014 position only",
+      "roc_auc": 0.967,
+      "pr_auc": 0.947,
+      "precision": 1.0,
+      "recall": 0.934,
+      "f1": 0.966,
+      "train_time_s": 0.288
+    },
+    {
+      "experiment": "RF \u2014 raw channels only",
+      "roc_auc": 0.998,
+      "pr_auc": 0.985,
+      "precision": 0.18,
+      "recall": 1.0,
+      "f1": 0.305,
+      "train_time_s": 0.238
+    },
+    {
+      "experiment": "RF \u2014 raw + rolling mean",
+      "roc_auc": 0.991,
+      "pr_auc": 0.935,
+      "precision": 0.18,
+      "recall": 1.0,
+      "f1": 0.305,
+      "train_time_s": 0.198
+    },
+    {
+      "experiment": "RF \u2014 full feature set",
+      "roc_auc": 0.942,
+      "pr_auc": 0.553,
+      "precision": 0.176,
+      "recall": 1.0,
+      "f1": 0.3,
+      "train_time_s": 0.275
+    }
+  ],
+  "pca_motor": {
+    "explained_variance_ratio": [
+      0.28271927756749776,
+      0.19208720830408205,
+      0.16338756693134657
+    ],
+    "per_motor": {
+      "data_motor_1": {
+        "test_anomaly_count": 114,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.09492089925062448,
+        "median_pc_distance": 2.8529691312517267
+      },
+      "data_motor_2": {
+        "test_anomaly_count": 888,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.7393838467943381,
+        "median_pc_distance": 0.614582400130725
+      },
+      "data_motor_3": {
+        "test_anomaly_count": 21,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.017485428809325562,
+        "median_pc_distance": 4.369326517346385
+      },
+      "data_motor_4": {
+        "test_anomaly_count": 20,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.01665278934221482,
+        "median_pc_distance": 2.26404435382324
+      },
+      "data_motor_5": {
+        "test_anomaly_count": 10,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.00832639467110741,
+        "median_pc_distance": 3.2775333642503943
+      },
+      "data_motor_6": {
+        "test_anomaly_count": 148,
+        "test_anomaly_fraction_of_all_test_anomalies": 0.12323064113238967,
+        "median_pc_distance": 2.114380303110645
+      }
+    }
+  },
+  "pca_variance": {
+    "pc1": 0.28271927756749776,
+    "pc2": 0.19208720830408205,
+    "pc3": 0.16338756693134657
+  },
+  "lstm_sweep": {
+    "30": {"roc_auc": 0.997, "pr_auc": 0.985, "precision": 0.907, "recall": 0.979, "f1": 0.942, "train_time_s": 32.7},
+    "60": {"roc_auc": 1.0, "pr_auc": 0.993, "precision": 0.924, "recall": 0.983, "f1": 0.953, "train_time_s": 61.2},
+    "120": {"roc_auc": 0.996, "pr_auc": 0.986, "precision": 0.873, "recall": 0.986, "f1": 0.926, "train_time_s": 116.5},
+    "300": {"roc_auc": 1.0, "pr_auc": 0.996, "precision": 0.981, "recall": 0.948, "f1": 0.964, "train_time_s": 230.6}
+  },
+  "rf_confusion_matrix": [
+    [
+      10392,
+      5615
+    ],
+    [
+      0,
+      1201
+    ]
+  ],
+  "rf_feature_importance": {
+    "temperature": 0.088,
+    "voltage": 0.092,
+    "position": 0.432,
+    "relative_time": 0.039,
+    "temp_rolling_mean": 0.109,
+    "voltage_rolling_std": 0.009,
+    "session_encoded": 0.012,
+    "motor_encoded": 0.217
+  }
+}

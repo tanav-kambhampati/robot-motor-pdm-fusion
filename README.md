@@ -41,8 +41,11 @@ pip install -r requirements.txt
 # Run main analysis
 python scripts/main_analysis.py
 
-# Generate IEEE figures
-python scripts/generate_ieee_figures.py
+# Generate IEEE figures (session-based split)
+python scripts/run_paper_eval_fast.py
+
+# Full evaluation including LSTM sweep (slow)
+python scripts/session_eval_and_ablations.py --lstm-lengths 30,60,120,300
 
 # Start prediction API
 python api/motor_api.py

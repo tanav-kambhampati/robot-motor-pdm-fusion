@@ -261,110 +261,12 @@ def create_ieee_confusion_matrix(y_test, rf_pred, save_path='plots/ieee_confusio
 
 
 def main():
-    print("=" * 60)
-    print("IEEE-COMPATIBLE FIGURE GENERATOR")
-    print("Generating individual figures with large fonts")
-    print("=" * 60)
-    
-    # Load data
-    print("\n[1/6] Loading motor sensor data...")
-    loader = MotorDataLoader()
-    combined_data = loader.combine_all_data()
-    anomaly_data = loader.detect_anomalies(method='iqr')
-    
-    print(f"   Loaded {len(anomaly_data)} samples")
-    print(f"   Anomaly rate: {(anomaly_data['is_anomaly'].sum() / len(anomaly_data) * 100):.2f}%")
-    
-    # Prepare features
-    print("\n[2/6] Preparing features...")
-    feature_cols = ['temperature', 'voltage', 'position', 'relative_time']
-    
-    anomaly_data['temp_rolling_mean'] = anomaly_data.groupby(['session', 'motor_id'])['temperature'].transform(
-        lambda x: x.rolling(window=5, min_periods=1).mean()
-    )
-    anomaly_data['voltage_rolling_std'] = anomaly_data.groupby(['session', 'motor_id'])['voltage'].transform(
-        lambda x: x.rolling(window=5, min_periods=1).std()
-    )
-    
-    le_session = LabelEncoder()
-    le_motor = LabelEncoder()
-    
-    anomaly_data['session_encoded'] = le_session.fit_transform(anomaly_data['session'])
-    anomaly_data['motor_encoded'] = le_motor.fit_transform(anomaly_data['motor_id'])
-    
-    feature_cols.extend(['temp_rolling_mean', 'voltage_rolling_std', 'session_encoded', 'motor_encoded'])
-    
-    X = anomaly_data[feature_cols].fillna(0)
-    y = anomaly_data['is_anomaly'].astype(int)
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    print(f"   Created {len(feature_cols)} features")
-    print(f"   Training: {len(X_train)} samples, Test: {len(X_test)} samples")
-    
-    # Train models
-    print("\n[3/6] Training models...")
-    
-    rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42, class_weight='balanced')
-    rf.fit(X_train_scaled, y_train)
-    rf_pred = rf.predict(X_test_scaled)
-    rf_pred_proba = rf.predict_proba(X_test_scaled)[:, 1]
-    
-    scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum()
-    xgb_model = xgb.XGBClassifier(n_estimators=100, max_depth=6, learning_rate=0.1, 
-                                   random_state=42, scale_pos_weight=scale_pos_weight, eval_metric='auc')
-    xgb_model.fit(X_train, y_train)
-    xgb_pred_proba = xgb_model.predict_proba(X_test)[:, 1]
-    
-    rf_auc = roc_auc_score(y_test, rf_pred_proba)
-    xgb_auc = roc_auc_score(y_test, xgb_pred_proba)
-    print(f"   Random Forest AUC: {rf_auc:.4f}")
-    print(f"   XGBoost AUC: {xgb_auc:.4f}")
-    
-    feature_importance = pd.DataFrame({
-        'feature': feature_cols,
-        'importance': rf.feature_importances_
-    }).sort_values('importance', ascending=False)
-    
-    # Generate figures
-    print("\n[4/6] Generating IEEE-compatible figures...")
-    
-    print("\n   Figure 1: Feature Importance")
-    create_ieee_feature_importance(feature_importance)
-    
-    print("   Figure 2: Correlation Heatmap")
-    create_ieee_correlation_heatmap(X_train_scaled, feature_cols)
-    
-    print("   Figure 3: 3D PCA Visualization")
-    create_ieee_3d_pca(X_train_scaled[:5000], y_train.iloc[:5000].values)
-    
-    print("   Figure 4: Learning Curves")
-    create_ieee_learning_curves(X_train_scaled, y_train)
-    
-    print("   Figure 5: ROC Curves (standalone)")
-    create_ieee_roc_curves(y_test, rf_pred_proba, xgb_pred_proba)
-    
-    print("   Figure 6: Confusion Matrix (standalone)")
-    create_ieee_confusion_matrix(y_test, rf_pred)
-    
-    print("\n" + "=" * 60)
-    print("SUCCESS! All IEEE-compatible figures generated.")
-    print("=" * 60)
-    print("\nGenerated files in plots/:")
-    print("  - ieee_feature_importance.png")
-    print("  - ieee_correlation_heatmap.png")
-    print("  - ieee_3d_pca.png")
-    print("  - ieee_learning_curves.png")
-    print("  - ieee_roc_curves.png (NEW - standalone)")
-    print("  - ieee_confusion_matrix.png (NEW - standalone)")
-    print("\nAll figures have:")
-    print("  - Large fonts (18-22pt)")
-    print("  - White backgrounds")
-    print("  - 300 DPI resolution")
-    
+    """Regenerate IEEE figures using session-based evaluation (see run_paper_eval_fast.py)."""
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts"))
+    from run_paper_eval_fast import main as run_fast
+    run_fast()
     return True
 
 
