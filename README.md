@@ -53,9 +53,13 @@ python api/motor_api.py
 
 ## Authors
 
-- Srinivas Nampalli - Del Norte High School
-- Tanav Kambhampati - Del Norte High School  
-- Saathvik Gampa - Del Norte High School
+- Srinivas Nampalli - University of California, Irvine
+- Tanav Kambhampati - University of California, San Diego
+- Saathvik Gampa - University of California, San Diego
+- Siavash Farzan - California Polytechnic Institute San Luis Obispo
+
+## Acknowledgements
+The authors would ike to thank Yuva Bala (Del Norte High School) for his assistance in our research as well as presenting at IEEE CCTA. 
 
 ## License
 
